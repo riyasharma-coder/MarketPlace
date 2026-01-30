@@ -3,12 +3,13 @@ from django.urls import path, include
 from django.contrib.auth import views as auth_views
 from django.conf import settings
 from django.conf.urls.static import static
-from django.shortcuts import redirect # Redirect ke liye import
+from django.shortcuts import redirect # Already imported
 
 urlpatterns = [
-    # Root URL: Jab koi sirf 127.0.0.1:8000 kholay toh use marketplace dikhao
-    # path('', lambda request: redirect('exchange/', permanent=False)),
-    path('',views.home, name='home')
+    # Root URL: Jab koi 127.0.0.1:8000 kholay, use exchange par bhej do.
+    # Hum 'item_list' (jo exchange/urls.py mein hai) ka use karenge.
+    path('', lambda request: redirect('item_list'), name='home'),
+    
     path('admin/', admin.site.urls),
     path('users/', include('users.urls')),
     path('exchange/', include('exchange.urls')),
