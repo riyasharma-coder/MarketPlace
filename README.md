@@ -44,9 +44,10 @@ source venv/bin/activate
 
 3. Install Dependencies
 Install the required Django framework:
+
 pip install django
 
-4. Apply Database Migrations
+5. Apply Database Migrations
 Set up your local SQLite database based on the project models:
 
 python manage.py makemigrations
