@@ -1,0 +1,50 @@
+{% extends 'base.html' %} {% block content %}
+<div style="max-width: 800px; margin: auto">
+  <div
+    style="display: flex; justify-content: space-between; align-items: center"
+  >
+    <h2 style="color: #2d5a27">Community Success Stories 🌿</h2>
+    <a
+      href="{% url 'share_story' %}"
+      style="
+        background: #2d5a27;
+        color: white;
+        padding: 10px 20px;
+        border-radius: 5px;
+        text-decoration: none;
+      "
+      >Share Your Story</a
+    >
+  </div>
+
+  {% for story in stories %}
+  <div
+    style="
+      background: white;
+      border-radius: 12px;
+      padding: 20px;
+      margin-top: 20px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+    "
+  >
+    <h3 style="margin-top: 0">{{ story.title }}</h3>
+    <p style="color: #555; line-height: 1.6">{{ story.content }}</p>
+    {% if story.image %}
+    <img
+      src="{{ story.image.url }}"
+      style="width: 100%; border-radius: 8px; margin-top: 10px"
+    />
+    {% endif %}
+    <hr style="border: 0; border-top: 1px solid #eee; margin: 15px 0" />
+    <small style="color: #888"
+      >Shared by <strong>{{ story.user.username }}</strong> on {{
+      story.created_at|date:"M d, Y" }}</small
+    >
+  </div>
+  {% empty %}
+  <p style="text-align: center; color: #888; margin-top: 50px">
+    Be the first one to share a success story!
+  </p>
+  {% endfor %}
+</div>
+{% endblock %}

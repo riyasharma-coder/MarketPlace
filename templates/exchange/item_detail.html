@@ -1,0 +1,87 @@
+{% extends 'base.html' %} {% block content %}
+<div
+  style="
+    max-width: 800px;
+    margin: auto;
+    background: white;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  "
+>
+  <a
+    href="{% url 'item_list' %}"
+    style="text-decoration: none; color: #2d5a27; font-weight: bold"
+    >← Back to Gallery</a
+  >
+
+  <div style="margin-top: 20px; display: flex; gap: 30px; flex-wrap: wrap">
+    <div
+      style="
+        flex: 1;
+        min-width: 300px;
+        height: 300px;
+        background: #f0f0f0;
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #888;
+      "
+    >
+      No Image Provided
+    </div>
+
+    <div style="flex: 1; min-width: 300px">
+      <span
+        style="
+          background: #e8f5e9;
+          color: #2d5a27;
+          padding: 5px 15px;
+          border-radius: 20px;
+          font-size: 12px;
+          font-weight: bold;
+        "
+      >
+        {{ item.get_category_display }}
+      </span>
+      <h1 style="margin: 15px 0; color: #1a1a1a">{{ item.title }}</h1>
+      <p style="color: #666; line-height: 1.6; font-size: 16px">
+        {{ item.description }}
+      </p>
+
+      <div
+        style="
+          margin-top: 30px;
+          padding: 20px;
+          background: #f9f9f9;
+          border-radius: 10px;
+        "
+      >
+        <p style="margin: 0; color: #888; font-size: 14px">Listed by</p>
+        <h3 style="margin: 5px 0; color: #2d5a27">{{ item.owner.username }}</h3>
+        <p style="font-size: 12px; color: #aaa">
+          Member since: {{ item.owner.date_joined|date:"M Y" }}
+        </p>
+
+        <button
+          style="
+            width: 100%;
+            margin-top: 15px;
+            background: #2d5a27;
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+          "
+        >
+          Send Interest / Message 📩
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

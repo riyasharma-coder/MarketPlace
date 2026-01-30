@@ -1,0 +1,64 @@
+{% extends 'base.html' %} {% block content %}
+<div style="max-width: 900px; margin: auto">
+  <h2 style="color: #2d5a27">My Listed Items 📦</h2>
+  <p>Manage the items you have posted for swap.</p>
+  <hr />
+
+  <div style="margin-top: 20px">
+    {% for item in items %}
+    <div
+      style="
+        background: white;
+        padding: 20px;
+        border-radius: 8px;
+        margin-bottom: 15px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+      "
+    >
+      <div>
+        <h3 style="margin: 0; color: #333">{{ item.title }}</h3>
+        <p style="color: #666; margin: 5px 0">
+          Category: {{ item.get_category_display }}
+        </p>
+        <span style="font-size: 12px; color: #aaa"
+          >Posted on: {{ item.created_at|date:"d M, Y" }}</span
+        >
+      </div>
+      <div>
+        <form
+          action="{% url 'delete_item' item.pk %}"
+          method="POST"
+          style="display: inline"
+        >
+          {% csrf_token %}
+          <button
+            type="submit"
+            onclick="
+              return confirm('Are you sure you want to delete this item?');
+            "
+            style="
+              background: #ff4d4d;
+              color: white;
+              border: none;
+              padding: 8px 15px;
+              border-radius: 4px;
+              cursor: pointer;
+              font-weight: bold;
+            "
+          >
+            Delete
+          </button>
+        </form>
+      </div>
+    </div>
+    {% empty %}
+    <p style="text-align: center; color: #888; padding: 40px">
+      Aapne abhi tak koi item list nahi kiya hai.
+    </p>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}

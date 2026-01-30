@@ -1,0 +1,60 @@
+{% extends 'base.html' %} {% block content %}
+<div style="max-width: 900px; margin: auto">
+  <h2 style="color: #2d5a27">Your Swap Dashboard 📊</h2>
+
+  <h3 style="margin-top: 30px">Requests for Your Items</h3>
+  <table
+    style="
+      width: 100%;
+      border-collapse: collapse;
+      background: white;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    "
+  >
+    <tr style="background: #2d5a27; color: white; text-align: left">
+      <th style="padding: 15px">Item</th>
+      <th style="padding: 15px">From User</th>
+      <th style="padding: 15px">Status</th>
+      <th style="padding: 15px">Action</th>
+    </tr>
+    {% for req in incoming %}
+    <tr style="border-bottom: 1px solid #eee">
+      <td style="padding: 15px">{{ req.item.title }}</td>
+      <td style="padding: 15px">{{ req.sender.username }}</td>
+      <td style="padding: 15px">
+        <span style="text-transform: capitalize; color: #666"
+          >{{ req.status }}</span
+        >
+      </td>
+      <td style="padding: 15px">
+        {% if req.status == 'pending' %}
+        <a
+          href="{% url 'update_status' req.id 'accepted' %}"
+          style="
+            color: green;
+            font-weight: bold;
+            text-decoration: none;
+            margin-right: 10px;
+          "
+          >Accept</a
+        >
+        <a
+          href="{% url 'update_status' req.id 'rejected' %}"
+          style="color: red; font-weight: bold; text-decoration: none"
+          >Reject</a
+        >
+        {% else %} Decision Made {% endif %}
+      </td>
+    </tr>
+    {% empty %}
+    <tr>
+      <td colspan="4" style="padding: 20px; text-align: center; color: #888">
+        No requests received yet.
+      </td>
+    </tr>
+    {% endfor %}
+  </table>
+</div>
+{% endblock %}

@@ -1,0 +1,49 @@
+{% extends 'base.html' %} {% block content %}
+<div style="max-width: 1000px; margin: auto">
+  <h2 style="color: #2d5a27; display: flex; align-items: center; gap: 10px">
+    Eco-Finder: Recycling Centers 📍
+  </h2>
+  <p style="color: #666">
+    Find nearby locations to drop off E-waste, clothes, or donations.
+  </p>
+
+  <div
+    id="map"
+    style="
+      height: 500px;
+      border-radius: 12px;
+      border: 2px solid #2d5a27;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    "
+  ></div>
+</div>
+
+<link
+  rel="stylesheet"
+  href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+/>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+<script>
+  // Map Delhi par focus karega (Default View)
+  var map = L.map('map').setView([28.6139, 77.2090], 11);
+
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '&copy; OpenStreetMap contributors'
+  }).addTo(map);
+
+  // Database se centers ke markers lagane ke liye logic
+  {% for center in centers %}
+      L.marker([{{ center.latitude }}, {{ center.longitude }}])
+          .addTo(map)
+          .bindPopup(`
+              <div style="font-family: sans-serif;">
+                  <strong style="color: #2d5a27;">{{ center.name }}</strong><br>
+                  <small>{{ center.get_center_type_display }}</small><br>
+                  <p style="margin: 5px 0;">📞 {{ center.contact_number }}</p>
+                  <a href="https://www.google.com/maps/search/?api=1&query={{ center.latitude }},{{ center.longitude }}" target="_blank" style="color: #2d5a27; font-size: 12px;">Get Directions</a>
+              </div>
+          `);
+  {% endfor %}
+</script>
+{% endblock %}
