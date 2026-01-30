@@ -1,4 +1,5 @@
-{% extends 'base.html' %} {% block content %}
+{% extends 'base.html' %} 
+{% block content %}
 <div
   style="
     max-width: 800px;
@@ -64,22 +65,41 @@
           Member since: {{ item.owner.date_joined|date:"M Y" }}
         </p>
 
-        <button
-          style="
-            width: 100%;
-            margin-top: 15px;
-            background: #2d5a27;
-            color: white;
-            border: none;
-            padding: 12px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 16px;
-            font-weight: bold;
-          "
-        >
-          Send Interest / Message 📩
-        </button>
+        {% if user.is_authenticated %}
+            {% if item.owner == user %}
+                <p style="text-align: center; color: #666; font-style: italic; margin-top: 15px;">
+                    This is your listing.
+                </p>
+            {% elif has_requested %}
+                <div style="width: 100%; margin-top: 15px; background: #e8f5e9; color: #2d5a27; padding: 12px; border-radius: 8px; text-align: center; font-weight: bold;">
+                    ✅ Interest Sent
+                </div>
+            {% else %}
+                <a href="{% url 'send_swap_request' item.id %}"
+                   style="
+                    display: block;
+                    text-align: center;
+                    text-decoration: none;
+                    width: 100%;
+                    margin-top: 15px;
+                    background: #2d5a27;
+                    color: white;
+                    padding: 12px;
+                    border-radius: 8px;
+                    font-size: 16px;
+                    font-weight: bold;
+                    transition: background 0.3s;
+                   "
+                >
+                  Send Interest / Message 📩
+                </a>
+            {% endif %}
+        {% else %}
+            <a href="{% url 'login' %}" 
+               style="display: block; text-align: center; text-decoration: none; margin-top: 15px; color: #2d5a27; font-weight: bold;">
+               Login to send interest
+            </a>
+        {% endif %}
       </div>
     </div>
   </div>

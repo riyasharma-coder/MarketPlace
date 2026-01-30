@@ -63,21 +63,23 @@ def dashboard_view(request):
 
 @login_required
 def update_request_status(request, req_id, new_status):
-    # Sirf item ka owner hi status change kar sakta hai
     swap_req = get_object_or_404(SwapRequest, id=req_id, item__owner=request.user)
     
     if new_status in ['accepted', 'rejected']:
         swap_req.status = new_status
         swap_req.save()
         
-        # Agar swap accept ho gaya, toh item ko 'Swapped' mark kardo
         if new_status == 'accepted':
             item = swap_req.item
-            item.is_swapped = True  # Ensure models.py mein ye field hai
+            item.is_swapped = True
             item.save()
-            messages.success(request, f"Deal Fixed! You can now contact {swap_req.sender.username}.")
+            
+            # PRO MOVE: Reject all other pending requests for this specific item
+            item.requests.filter(status='pending').exclude(id=req_id).update(status='rejected')
+            
+            messages.success(request, f"Deal Fixed! Item is now off the market.")
         else:
-            messages.info(request, "Request rejected.")
+            messages.info(request, "Request rejected. The item is still available for others.")
             
     return redirect('dashboard')
 
@@ -112,4 +114,7 @@ def delete_item_view(request, pk):
     
     # Agar koi seedha URL hit kare toh wapas bhej do
     return redirect('my_listings')
+
+def home_view(request):
+    return render(request, 'exchange/home.html')
 

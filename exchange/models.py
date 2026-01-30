@@ -7,6 +7,9 @@ class Item(models.Model):
         ('furniture', 'Furniture'),
         ('books', 'Books'),
         ('clothing', 'Clothing'),
+        ('toys', 'Toys & Games'),  
+        ('kitchen', 'Kitchenware'), 
+        ('general', 'General / Other'),
     ]
 
     owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
