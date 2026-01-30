@@ -46,14 +46,16 @@ source venv/bin/activate
 Install the required Django framework:
 pip install django
 
-5. Apply Database Migrations
+4. Apply Database Migrations
 Set up your local SQLite database based on the project models:
+
 python manage.py makemigrations
+
 python manage.py migrate
 
 5. Launch the Development Server
+
 Start the local server:
 
-Bash
 python manage.py runserver
 Once running, open your browser and go to http://127.0.0.1:8000/ to view the app.
