@@ -1,56 +1,171 @@
 <!doctype html>
-<html>
-  <head>
-    <title>EcoSwap Registration</title>
-  </head>
-  <body style="font-family: Arial; background-color: #f0fdf4; padding: 40px">
-    <div
-      style="
-        background: white;
-        padding: 20px;
-        border-radius: 10px;
-        max-width: 400px;
-        margin: auto;
-        border: 1px solid #ddd;
-      "
-    >
-      <h2 style="color: #2d5a27">Join EcoSwap 🌿</h2>
-      <form method="POST">
-        {% csrf_token %}
-        <p>
-          Username:<br />
-          <input type="text" name="username" style="width: 100%" required />
-        </p>
-        <p>
-          Email:<br />
-          <input type="email" name="email" style="width: 100%" required />
-        </p>
-        <p>
-          Role:<br />
-          <select name="role" style="width: 100%">
-            <option value="giver">Giver (Donate Items)</option>
-            <option value="receiver">Receiver (Need Items)</option>
-            <option value="ngo">NGO</option>
-          </select>
-        </p>
-        <p>
-          Password:<br />
-          <input type="password" name="password" style="width: 100%" required />
-        </p>
-        <button
-          type="submit"
-          style="
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>EcoSwap | Create Account</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f0fdf4;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+        .register-card {
+            background: white;
+            padding: 32px;
+            border-radius: 16px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+            max-width: 400px;
+            width: 100%;
+            border: 1px solid #e2e8f0;
+        }
+        h2 { color: #2d5a27; margin-top: 0; text-align: center; font-size: 24px; }
+        .form-group { margin-bottom: 20px; }
+        label { display: block; margin-bottom: 6px; font-weight: 500; color: #4b5563; font-size: 14px; }
+        input, select {
+            width: 100%;
+            padding: 12px;
+            border-radius: 8px;
+            border: 1px solid #d1d5db;
+            box-sizing: border-box;
+            transition: border-color 0.2s;
+            font-size: 15px;
+        }
+        input:focus, select:focus {
+            outline: none;
+            border-color: #2d5a27;
+            box-shadow: 0 0 0 3px rgba(45, 90, 39, 0.1);
+        }
+        .error { color: #dc2626; font-size: 12px; margin-top: 4px; font-weight: 500; }
+        .invalid { border-color: #dc2626 !important; background-color: #fef2f2; }
+        .btn-register {
             background: #2d5a27;
             color: white;
             border: none;
-            padding: 10px 20px;
+            padding: 14px;
             cursor: pointer;
             width: 100%;
-          "
-        >
-          Register
-        </button>
-      </form>
-    </div>
-  </body>
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            transition: background 0.2s;
+        }
+        .btn-register:hover { background: #24491f; }
+        
+        /* Fixed Server Message Styling */
+        .server-message {
+            background: #fef2f2;
+            color: #dc2626;
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-size: 14px;
+            border: 1px solid #fee2e2;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+<div class="register-card">
+    <h2>Join EcoSwap 🌿</h2>
+
+    {% if messages %}
+        {% for message in messages %}
+            <div class="server-message">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
+
+    <form method="POST" onsubmit="validateForm(event)" novalidate>
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="username">Username</label>
+            <input type="text" id="username" name="username" placeholder="Choose a unique username" required>
+            <div class="error" id="username-error"></div>
+        </div>
+
+        <div class="form-group">
+            <label for="email">Email Address</label>
+            <input type="email" id="email" name="email" placeholder="you@example.com" required>
+            <div class="error" id="email-error"></div>
+        </div>
+
+        <div class="form-group">
+            <label for="role">Role</label>
+            <select id="role" name="role" required>
+                <option value="">-- Select a Role --</option>
+                <option value="giver">Giver (Donate Items)</option>
+                <option value="receiver">Receiver (Need Items)</option>
+                <option value="ngo">NGO</option>
+            </select>
+            <div class="error" id="role-error"></div>
+        </div>
+
+        <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" placeholder="At least 6 characters" required>
+            <div class="error" id="password-error"></div>
+        </div>
+
+        <button type="submit" class="btn-register">Create Account</button>
+    </form>
+</div>
+
+<script>
+    function validateForm(event) {
+        event.preventDefault();
+        
+        const errorElements = document.querySelectorAll(".error");
+        errorElements.forEach((el) => (el.textContent = ""));
+        const inputs = document.querySelectorAll("input, select");
+        inputs.forEach((input) => input.classList.remove("invalid"));
+
+        const username = document.getElementById("username").value.trim();
+        const email = document.getElementById("email").value.trim();
+        const role = document.getElementById("role").value;
+        const password = document.getElementById("password").value;
+
+        let isValid = true;
+
+        if (username.length < 3) {
+            showError("username-error", "Username must be at least 3 characters");
+            isValid = false;
+        }
+
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+            showError("email-error", "Enter a valid email address");
+            isValid = false;
+        }
+
+        if (!role) {
+            showError("role-error", "Please select your role");
+            isValid = false;
+        }
+
+        if (password.length < 6) {
+            showError("password-error", "Password must be at least 6 characters");
+            isValid = false;
+        }
+
+        if (isValid) {
+            event.target.submit();
+        }
+    }
+
+    function showError(elementId, message) {
+        const errorElement = document.getElementById(elementId);
+        errorElement.textContent = message;
+        const inputId = elementId.replace("-error", "");
+        document.getElementById(inputId).classList.add("invalid");
+    }
+</script>
+
+</body>
 </html>

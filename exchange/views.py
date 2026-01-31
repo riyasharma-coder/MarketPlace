@@ -7,12 +7,17 @@ from .models import Item, SwapRequest # SwapRequest yahan import karna zaroori h
 @login_required(login_url='/users/register/')
 def add_item_view(request):
     if request.method == 'POST':
-        form = ItemForm(request.POST)
+        form = ItemForm(request.POST, request.FILES)
         if form.is_valid():
             item = form.save(commit=False)
             item.owner = request.user 
             item.save()
-            return redirect('item_list') 
+            messages.success(request, "Item posted successfully!")
+            return redirect('item_list')
+        else:
+            for field, errors in form.errors.items():
+                for error in errors:
+                    messages.error(request, f"{field}: {error}")
     else:
         form = ItemForm()
     return render(request, 'exchange/add_item.html', {'form': form})

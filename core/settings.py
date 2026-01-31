@@ -105,3 +105,34 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 CORS_ALLOW_ALL_ORIGINS = True
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# Email Configuration for Password Reset
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'  # Development mode - prints to console
+# For production, use: 'django.core.mail.backends.smtp.EmailBackend'
+# EMAIL_HOST = 'smtp.gmail.com'
+# EMAIL_PORT = 587
+# EMAIL_USE_TLS = True
+# EMAIL_HOST_USER = 'your-email@gmail.com'
+# EMAIL_HOST_PASSWORD = 'your-app-password'
+
+# Password reset email settings
+DEFAULT_FROM_EMAIL = 'noreply@ecoswap.com'
+PASSWORD_RESET_TIMEOUT = 86400  # 24 hours in seconds
+
+
+# 1. Static Files Configuration (Confirming paths)
+STATIC_URL = 'static/'
+STATICFILES_DIRS = [BASE_DIR / 'static']
+# STATIC_ROOT is used for production ('python manage.py collectstatic')
+STATIC_ROOT = BASE_DIR / 'staticfiles'
+
+# 2. Media files (User uploaded content)
+# Yeh URL browser mein images load karne ke liye use hoga
+MEDIA_URL = '/media/'
+
+# Yeh folder aapke local computer (IntelliJ project) par images save karega
+MEDIA_ROOT = BASE_DIR / 'media'
+
+# 3. Security Check for Media (Recommended for React/CORS)
+# Agar aap frontend se image upload kar rahe hain, toh ye headers help karenge
+CORS_ALLOW_ALL_ORIGINS = True

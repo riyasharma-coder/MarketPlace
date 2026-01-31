@@ -19,6 +19,7 @@ class Item(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     # YE LINE ADD KI HAI:
     is_swapped = models.BooleanField(default=False) 
+    image = models.ImageField(upload_to='item_images/', blank=True, null=True)
 
     def __str__(self):
         return self.title
