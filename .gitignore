@@ -1,15 +1,40 @@
-# Virtual Environment
-venv/
-
-# Python Cache
+# Python / Django
 __pycache__/
-*.pyc
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+pip-log.txt
+pip-delete-this-directory.txt
+dist/
+build/
+sdist/
+.tox/
+.coverage
+.cache
+nosetests.xml
+coverage.xml
+*,cover
+*.log
+.mypy_cache/
 
-# Database 
+# Database
 db.sqlite3
+*.mysql
+*.sql
 
-# Environment Variables (Passwords etc.)
+# Environment variables (Crucial for security)
 .env
+
+# Media and Static files
+media/
+staticfiles/
 
 # VS Code settings
 .vscode/
+
+# OS specific files
+.DS_Store
+Thumbs.db
