@@ -59,4 +59,9 @@ python manage.py migrate
 Start the local server:
 
 python manage.py runserver
+
 Once running, open your browser and go to http://127.0.0.1:8000/ to view the app.
+
+6. Create a Superuser (Admin) To access the Django Admin panel and manage categories or users:
+
+python manage.py createsuperuser
