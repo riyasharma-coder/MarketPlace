@@ -26,6 +26,7 @@ INSTALLED_APPS = [
     'exchange',   # Module 2 & 4
     'centers',    # Module 3
     'community',  # Module 5
+    'chat',
 ]
 
 MIDDLEWARE = [

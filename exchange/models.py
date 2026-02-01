@@ -28,9 +28,14 @@ class SwapRequest(models.Model):
     item = models.ForeignKey(Item, on_delete=models.CASCADE, related_name='requests')
     sender = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     message = models.TextField(blank=True)
-    status = models.CharField(max_length=20, default='pending') # pending, accepted, rejected
+    status = models.CharField(max_length=20, default='pending') 
     created_at = models.DateTimeField(auto_now_add=True)
+    meeting_center = models.ForeignKey('centers.Center', on_delete=models.SET_NULL, null=True, blank=True)
+    
+    # --- NEW FIELDS FOR THE HANDSHAKE ---
+    owner_agreed_location = models.BooleanField(default=False)
+    sender_agreed_location = models.BooleanField(default=False)
+    # ------------------------------------
 
     def __str__(self):
         return f"{self.sender.username} wants {self.item.title}"
-    

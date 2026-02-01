@@ -22,11 +22,11 @@ urlpatterns = [
     # Modules
     path('users/', include('users.urls')),
     path('exchange/', include('exchange.urls')),
-    path('centers/', include('centers.urls')),
+    path('centers/', include('centers.urls', namespace='centers')),
     path('community/', include('community.urls')),
+    path('chat/', include('chat.urls')),
 ]
 
 if settings.DEBUG:
     urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
-    

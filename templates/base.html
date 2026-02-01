@@ -11,7 +11,7 @@
         --primary-green: #2d5a27;
         --accent-green: #4caf50;
         --bg-light: #f4f9f4;
-        --white: #ffffff;
+        --white: #white;
       }
 
       body {
@@ -21,7 +21,6 @@
         color: #333;
       }
 
-      /* Back to the Green Navbar you loved */
       nav {
         background: var(--primary-green);
         color: white;
@@ -99,7 +98,6 @@
         color: #ff6666;
       }
 
-      /* Content Area */
       .container {
         padding: 40px 50px;
         max-width: 1200px;
@@ -129,7 +127,8 @@
           <a href="{% url 'my_listings' %}">My Listings</a>
           <a href="{% url 'add_item' %}">+ Post Item</a>
           <a href="{% url 'stories' %}">Stories</a>
-          <a href="{% url 'map_view' %}">Centers</a>
+          
+          <a href="{% url 'centers:map_view' %}">Centers</a>
           
           <a href="{% url 'profile' %}" class="user-badge" style="text-decoration: none; color: inherit; display: inline-block;">Hi, {{ user.username }}!</a>
 

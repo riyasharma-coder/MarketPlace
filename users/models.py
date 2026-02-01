@@ -3,17 +3,20 @@ from django.db import models
 
 class User(AbstractUser):
     ROLE_CHOICES = [
-        ('giver', 'Giver'),
-        ('receiver', 'Receiver'),
-        ('community', 'Community Member'),
+        ('individual', 'Individual'),
         ('ngo', 'NGO Partner'),
     ]
-    role = models.CharField(max_length=20, choices=ROLE_CHOICES, default='community')
+    # Default is now 'individual' for a smoother signup
+    role = models.CharField(max_length=20, choices=ROLE_CHOICES, default='individual')
     location = models.CharField(max_length=255, blank=True)
     sustainability_interests = models.TextField(blank=True)
     
-    # Ye line add karein:
-    profile_image = models.ImageField(upload_to='profile_pics/', default='profile_pics/default.jpg', blank=True, null=True)
+    profile_image = models.ImageField(
+        upload_to='profile_pics/', 
+        default='profile_pics/default.jpg', 
+        blank=True, 
+        null=True
+    )
 
     def __str__(self):
-        return f"{self.username} ({self.role})"
+        return f"{self.username} ({self.get_role_display()})"

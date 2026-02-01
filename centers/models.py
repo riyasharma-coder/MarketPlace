@@ -2,21 +2,16 @@ from django.db import models
 from django.core.validators import RegexValidator, MinValueValidator, MaxValueValidator
 
 class Center(models.Model):
-    CENTER_TYPES = [
-        ('e_waste', 'E-Waste Recycler'),
-        ('cloth_bank', 'Cloth Bank'),
-        ('ngo', 'NGO / Donation Center'),
-    ]
-
     name = models.CharField(max_length=200, blank=False)
-    center_type = models.CharField(max_length=20, choices=CENTER_TYPES, blank=False)
+    # center_type line removed
     address = models.TextField(blank=False)
     city = models.CharField(max_length=100, blank=False)
     contact_number = models.CharField(
-        max_length=15,
-        blank=False,
-        validators=[RegexValidator(r'^\d{10}$', 'Contact number must be 10 digits')]
-    )
+    max_length=15,
+    blank=True,  # This makes it optional in the Admin form
+    null=True,   # This allows the database to store a 'NULL' value
+    validators=[RegexValidator(r'^\d{10}$', 'Contact number must be 10 digits')]
+)
     # Latitude aur Longitude Maps par dikhane ke liye
     latitude = models.DecimalField(
         max_digits=9,
@@ -35,4 +30,5 @@ class Center(models.Model):
         ordering = ['city', 'name']
 
     def __str__(self):
-        return f"{self.name} ({self.get_center_type_display()})"
+        # Updated to remove the center_type call
+        return f"{self.name} ({self.city})"
