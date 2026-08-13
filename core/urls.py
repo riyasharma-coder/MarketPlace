@@ -9,6 +9,7 @@ from django.conf import settings
 # pyrefly: ignore [missing-import]
 from django.conf.urls.static import static
 from exchange import views as exchange_views
+from .views import health_check  # Import directly from the same directory
 
 urlpatterns = [
     path('', exchange_views.home_view, name='home'),
@@ -24,6 +25,7 @@ urlpatterns = [
     path('centers/', include('centers.urls', namespace='centers')),
     path('community/', include('community.urls')),
     path('chat/', include('chat.urls')),
+    path("api/health/", health_check, name="health_check"),
 ]
 
 if settings.DEBUG:

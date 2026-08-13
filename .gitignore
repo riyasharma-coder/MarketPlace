@@ -5,6 +5,7 @@ __pycache__/
 *.so
 .Python
 env/
+venv/
 .venv/
 pip-log.txt
 pip-delete-this-directory.txt
@@ -38,4 +39,5 @@ staticfiles/
 # OS specific files
 .DS_Store
 Thumbs.db
-/data_backup.jsonvenv/ 
+/data_backup.json
+
