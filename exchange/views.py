@@ -10,7 +10,7 @@ from .forms import ItemForm
 from .models import Item, SwapRequest
 
 
-@login_required(login_url='/users/register/')
+@login_required(login_url='/login/')
 def add_item_view(request):
     if request.method == 'POST':
         form = ItemForm(request.POST, request.FILES)
@@ -69,9 +69,11 @@ def item_detail_view(request, pk):
     })
 
 
-@require_POST
 @login_required
 def send_swap_request(request, item_id):
+    if request.method not in ("GET", "POST"):
+        return redirect('item_detail', pk=item_id)
+
     item = get_object_or_404(Item, id=item_id)
 
     if item.is_swapped:
