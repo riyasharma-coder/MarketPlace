@@ -10,7 +10,7 @@ from .forms import ItemForm
 from .models import Item, SwapRequest
 
 
-@login_required(login_url='/users/register/')
+@login_required(login_url='/login/')
 def add_item_view(request):
     if request.method == 'POST':
         form = ItemForm(request.POST, request.FILES)
