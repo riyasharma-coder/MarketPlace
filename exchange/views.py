@@ -190,4 +190,36 @@ def delete_item_view(request, pk):
 
 
 def home_view(request):
-    return render(request, 'exchange/home.html')
+    notifications = [
+        {
+            'title': 'New swap request',
+            'message': 'Someone has requested your reusable bookshelf in Noida.',
+            'time': '2 hours ago',
+            'type': 'info'
+        },
+        {
+            'title': 'Pickup reminder',
+            'message': 'Confirm your meeting plan for the kitchen set exchange.',
+            'time': 'Today',
+            'type': 'success'
+        },
+        {
+            'title': 'Community update',
+            'message': 'EcoSwap members saved 120+ items this week from landfill.',
+            'time': 'Yesterday',
+            'type': 'warning'
+        },
+    ]
+    return render(request, 'exchange/home.html', {'notifications': notifications})
+
+
+def about_view(request):
+    return render(request, 'exchange/about.html')
+
+
+def how_it_works_view(request):
+    return render(request, 'exchange/how_it_works.html')
+
+
+def faqs_view(request):
+    return render(request, 'exchange/faqs.html')

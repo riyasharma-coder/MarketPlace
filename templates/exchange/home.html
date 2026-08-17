@@ -148,4 +148,109 @@
   </div>
 </div>
 
+<div style="margin-top: 40px; background: linear-gradient(135deg, #f6fff6 0%, #edf8ee 100%); border: 1px solid #dfeee0; border-radius: 18px; padding: 26px 24px; box-shadow: 0 8px 18px rgba(45, 90, 39, 0.06);">
+  <div style="display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap; margin-bottom: 18px;">
+    <div>
+      <p style="margin: 0; color: #2d5a27; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; font-size: 0.8rem;">Notifications</p>
+      <h2 style="margin: 8px 0 0 0; color: #2d5a27; font-size: 2rem;">Latest updates</h2>
+    </div>
+    <a href="{% url 'dashboard' %}" style="text-decoration: none; color: #2d5a27; font-weight: 700;">View dashboard →</a>
+  </div>
+
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 18px;">
+    {% for note in notifications %}
+      <div style="background: white; border: 1px solid #e3f0e3; border-radius: 14px; padding: 18px; box-shadow: 0 6px 14px rgba(45, 90, 39, 0.04);">
+        <div style="display: flex; justify-content: space-between; align-items: center; gap: 10px; margin-bottom: 10px;">
+          <span style="display: inline-block; padding: 6px 10px; border-radius: 999px; font-size: 0.72rem; font-weight: 700; background: {% if note.type == 'success' %}#eaf9eb{% elif note.type == 'warning' %}#fff4d8{% else %}#e8f1ff{% endif %}; color: #2d5a27;">
+            {{ note.type|title }}
+          </span>
+          <small style="color: #777;">{{ note.time }}</small>
+        </div>
+        <h4 style="margin: 0 0 8px 0; color: #2d5a27; font-size: 1.1rem;">{{ note.title }}</h4>
+        <p style="margin: 0; color: #555; line-height: 1.6;">{{ note.message }}</p>
+      </div>
+    {% endfor %}
+  </div>
+</div>
+
+<div style="margin-top: 60px; text-align: center; padding: 10px 0 30px 0;">
+  <h2 style="font-size: 2.5rem; color: #2d5a27; margin-bottom: 25px;">
+    The Minds Behind EcoSwap
+  </h2>
+
+  <div
+    style="
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 30px;
+    "
+  >
+    <div
+      style="
+        background: linear-gradient(135deg, #f4fbf3 0%, #edf7ee 100%);
+        padding: 24px;
+        border-radius: 18px;
+        text-align: center;
+        border: 1px solid #dfeee0;
+        box-shadow: 0 8px 20px rgba(45, 90, 39, 0.08);
+      "
+    >
+      <img
+        src="/media/team/ujjawal.png"
+        alt="Ujjawal Bisht"
+        style="
+          width: 120px;
+          height: 120px;
+          object-fit: cover;
+          border-radius: 50%;
+          border: 4px solid #cfe8d0;
+          margin-bottom: 16px;
+        "
+      />
+      <h3 style="color: #2d5a27; margin: 0 0 8px 0; font-size: 1.8rem;">
+        Ujjawal Bisht
+      </h3>
+      <p style="color: #2d5a27; font-weight: 600; margin: 0 0 12px 0;">
+        Co-Founder & Full Stack Developer
+      </p>
+      <p style="color: #555; line-height: 1.7; margin: 0;">
+        Focused on building EcoSwap's technical foundation, from backend architecture and database management to deployment and application functionality.
+      </p>
+    </div>
+
+    <div
+      style="
+        background: linear-gradient(135deg, #ffffff 0%, #f8fff8 100%);
+        padding: 24px;
+        border-radius: 18px;
+        text-align: center;
+        border: 1px solid #dfeee0;
+        box-shadow: 0 8px 20px rgba(45, 90, 39, 0.08);
+      "
+    >
+      <img
+        src="/media/team/riya.png"
+        alt="Riya Sharma"
+        style="
+          width: 120px;
+          height: 120px;
+          object-fit: cover;
+          border-radius: 50%;
+          border: 4px solid #cfe8d0;
+          margin-bottom: 16px;
+        "
+      />
+      <h3 style="color: #2d5a27; margin: 0 0 8px 0; font-size: 1.8rem;">
+        Riya Sharma
+      </h3>
+      <p style="color: #2d5a27; font-weight: 600; margin: 0 0 12px 0;">
+        Co-Founder & Full Stack Developer
+      </p>
+      <p style="color: #555; line-height: 1.7; margin: 0;">
+        Focused on sustainability, user needs, and community engagement, helping shape EcoSwap's goal of making reuse and item exchange more accessible.
+      </p>
+    </div>
+  </div>
+</div>
+
 {% endblock %}
