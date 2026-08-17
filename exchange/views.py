@@ -10,7 +10,7 @@ from .forms import ItemForm
 from .models import Item, SwapRequest
 
 
-@login_required(login_url='/users/register/')
+@login_required(login_url='/login/')
 def add_item_view(request):
     if request.method == 'POST':
         form = ItemForm(request.POST, request.FILES)
@@ -69,9 +69,11 @@ def item_detail_view(request, pk):
     })
 
 
-@require_POST
 @login_required
 def send_swap_request(request, item_id):
+    if request.method not in ("GET", "POST"):
+        return redirect('item_detail', pk=item_id)
+
     item = get_object_or_404(Item, id=item_id)
 
     if item.is_swapped:
@@ -126,36 +128,44 @@ def update_request_status(request, req_id, new_status):
         messages.error(request, "Invalid status.")
         return redirect('dashboard')
 
-    if new_status in [SwapRequest.STATUS_ACCEPTED, SwapRequest.STATUS_REJECTED]:
+    if new_status == SwapRequest.STATUS_ACCEPTED:
+        if swap_req.status != SwapRequest.STATUS_PENDING:
+            messages.error(request, "This request is no longer pending.")
+            return redirect('dashboard')
+        if swap_req.item.owner != request.user:
+            return redirect('dashboard')
+        if swap_req.item.is_swapped:
+            messages.error(request, "This item has already been swapped.")
+            return redirect('dashboard')
+
+        swap_req.status = SwapRequest.STATUS_ACCEPTED
+        swap_req.item.is_swapped = True
+        swap_req.item.save()
+        swap_req.save()
+
+        swap_req.item.requests.filter(
+            status=SwapRequest.STATUS_PENDING
+        ).exclude(id=req_id).update(status=SwapRequest.STATUS_REJECTED)
+
+    elif new_status == SwapRequest.STATUS_REJECTED:
+        if swap_req.status != SwapRequest.STATUS_PENDING:
+            messages.error(request, "Only pending requests can be rejected.")
+            return redirect('dashboard')
         if swap_req.item.owner != request.user:
             return redirect('dashboard')
 
-        if new_status == SwapRequest.STATUS_ACCEPTED and swap_req.item.is_swapped:
-            messages.error(request, "This item has already been swapped with someone else.")
-            return redirect('dashboard')
-
-        swap_req.status = new_status
+        swap_req.status = SwapRequest.STATUS_REJECTED
         swap_req.save()
-
-        if new_status == SwapRequest.STATUS_ACCEPTED:
-            item = swap_req.item
-            item.is_swapped = True
-            item.save()
-
-            swap_req.item.requests.filter(
-                status=SwapRequest.STATUS_PENDING
-            ).exclude(id=req_id).update(status=SwapRequest.STATUS_REJECTED)
-
-            messages.success(request, "Deal Fixed! Item is now off the market.")
-        else:
-            messages.info(request, "Request rejected. The item is still available for others.")
 
     elif new_status == SwapRequest.STATUS_COMPLETED:
+        if swap_req.status != SwapRequest.STATUS_ACCEPTED:
+            messages.error(request, "Only accepted swaps can be marked completed.")
+            return redirect('dashboard')
         if request.user not in [swap_req.item.owner, swap_req.sender]:
             return redirect('dashboard')
-        swap_req.status = new_status
+
+        swap_req.status = SwapRequest.STATUS_COMPLETED
         swap_req.save()
-        messages.success(request, "Swap marked as completed!")
 
     return redirect('dashboard')
 
