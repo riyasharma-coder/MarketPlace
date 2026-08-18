@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% block title %}EcoSwap - Sustainable Swapping 🌿{% endblock %} 
+{% load static %}
 
 {% block content %}
 <div
@@ -196,7 +197,7 @@
       "
     >
       <img
-        src="/media/team/ujjawal.png"
+        src="{% static 'team/ujjawal.png' %}"
         alt="Ujjawal Bisht"
         style="
           width: 120px;
@@ -229,7 +230,7 @@
       "
     >
       <img
-        src="/media/team/riya.png"
+        src="{% static 'team/riya.png' %}"
         alt="Riya Sharma"
         style="
           width: 120px;
